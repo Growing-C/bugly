@@ -14,13 +14,11 @@ import android.widget.Toast;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.List;
 
 import dalvik.system.DexClassLoader;
 
 public class MainActivity extends Activity {
     MBroadCastReceiver receiver;
-    DexClassLoader classLoader;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +45,7 @@ public class MainActivity extends Activity {
         File file = new File(Environment.getExternalStorageDirectory()
                 .toString() + "/cgytest" + File.separator + "app-release.apk");
         final File optimizedDexOutputPath = getDir("temp", Context.MODE_PRIVATE);
-          classLoader = new DexClassLoader(file.getAbsolutePath(),
+        DexClassLoader classLoader = new DexClassLoader(file.getAbsolutePath(),
                 optimizedDexOutputPath.getAbsolutePath(), null,
                 getClassLoader());
         Object obj = null;
@@ -93,10 +91,7 @@ public class MainActivity extends Activity {
         @Override
         public void onReceive(Context context, Intent intent) {
             System.out.println( "action:" + intent.getAction());
-
-            List a= (List) intent.getSerializableExtra("se");
-            System.out.println(a.size());
-//            intent.getIntExtra("se",3);
+            intent.getIntExtra("se",3);
         }
     }
 

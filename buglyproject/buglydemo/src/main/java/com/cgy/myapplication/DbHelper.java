@@ -10,12 +10,12 @@ import android.util.Log;
  */
 public class DbHelper extends SQLiteOpenHelper {
     public DbHelper(Context context) {
-        super(context, "test", null, 1);
+        super(context, "db1", null, 1);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String a = "CREATE TABLE if not exists [table1] ([nane] TEXT NOT NULL, [pwd] TEXT);";
+        String a = "CREATE TABLE if not exists [table1] ([name] TEXT NOT NULL, [pwd] TEXT);";
         db.execSQL(a);
         Log.i("a", "db created");
     }

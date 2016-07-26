@@ -1,1 +1,1 @@
-include  ':buglydemo'
+include  ':buglydemo',':app'
