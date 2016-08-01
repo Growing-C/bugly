@@ -49,6 +49,7 @@ public class MainActivity extends Activity {
                         System.out.println("name:" + name + "  pwd:" + pwd);
                     }
 
+
                 db.close();
                 System.out.println("db close");
                 dbHelper.getWritableDatabase();
