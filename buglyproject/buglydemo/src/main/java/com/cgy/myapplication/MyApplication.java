@@ -22,7 +22,7 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        CrashReport.initCrashReport(getApplicationContext(), "900027679", false);
+//        CrashReport.initCrashReport(getApplicationContext(), "900027679", false);
     }
 
 

@@ -3,53 +3,59 @@ package com.cgy.myapplication;
 import android.app.Activity;
 
 import android.content.BroadcastReceiver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.BaseInputConnection;
+import android.widget.EditText;
+import android.widget.TextView;
 
 public class MainActivity extends Activity {
-    MBroad mBroad;
+    DbHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        dbHelper = new DbHelper(this);
 
-        mBroad = new MBroad();
+        dbHelper.insertData("aaa", "111");
+        dbHelper.insertData("bbb", "222");
+        dbHelper.insertData("ccc", "333");
+        dbHelper.getList();
     }
 
     public void onClick(View v) {
         System.out.println("bug start");
-        sendBroadcast(new Intent("action"));
+
+        new Thread() {
+            @Override
+            public void run() {
+                dbHelper.getListError();
+                System.out.println("Thread 1 close");
+
+            }
+        }.start();
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("Thread 2 start");
+                dbHelper.getWritableDatabase();
+            }
+        }.start();
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        registerReceiver(mBroad, new IntentFilter("action"));
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        unregisterReceiver(mBroad);
-    }
-
-    class MBroad extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            System.out.println("action:" + intent.getAction());
-            Message msg = new Message();
-            msg.what = 1;
-//            msg.recycle();
-            Handler handler = new Handler();
-            handler.sendMessage(msg);
-            handler.sendMessage(msg);
-        }
-    }
 }
