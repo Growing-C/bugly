@@ -27,10 +27,16 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         dbHelper = new DbHelper(this);
 
-        dbHelper.insertData("aaa", "111");
-        dbHelper.insertData("bbb", "222");
-        dbHelper.insertData("ccc", "333");
-        dbHelper.getList();
+        new Thread() {
+            @Override
+            public void run() {
+                for (int i = 0; i < 100; i++) {
+                    dbHelper.insertData("key:" + i, "value:" + i);
+                }
+                dbHelper.getList();
+            }
+        }.start();
+
     }
 
     public void onClick(View v) {
@@ -41,7 +47,7 @@ public class MainActivity extends Activity {
             public void run() {
                 SQLiteDatabase db = dbHelper.getWritableDatabase();
                 db.beginTransaction();
-                Cursor c = db.rawQuery("select * from table1", null);
+                Cursor c = db.rawQuery("select * from table1 where ", null);
                 if (c != null && c.getCount() != 0)
                     while (c.moveToNext()) {
                         String name = c.getString(0);

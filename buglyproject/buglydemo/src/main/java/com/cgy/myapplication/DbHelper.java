@@ -51,13 +51,15 @@ public class DbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         Cursor c = db.rawQuery("select * from table1", null);
         if (c != null && c.getCount() != 0)
-            while (c.moveToNext()) {
-                String name = c.getString(0);
-                String pwd = c.getString(1);
-                System.out.println("name:" + name + "  pwd:" + pwd);
-            }
+            System.out.println("data count:"+c.getCount());
+//            while (c.moveToNext()) {
+//                String name = c.getString(0);
+//                String pwd = c.getString(1);
+//
+//            }
         c.close();
         db.close();
+        System.out.println("list ok:"  );
     }
 
     public void getListError() {
